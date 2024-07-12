@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('com_Name', 50);
             $table->string('sci_Name', 50);
             $table->string('fam_Name', 50);
-            $table->string('barangay', 50);
-            $table->string('municipality', 50);
-            $table->string('province', 50);
+            $table->string('address', 50);
             $table->string('Lat', 50);
             $table->string('Lng', 50);
             $table->string('origin', 50);

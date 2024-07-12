@@ -15,9 +15,7 @@ class TreeController extends Controller
                 'com_Name',
                 'sci_Name',
                 'fam_Name',
-                'barangay',
-                'municipality',
-                'province',
+                'address',
                 'Lat',
                 'Lng',
                 'origin',
@@ -45,9 +43,7 @@ class TreeController extends Controller
     $Reco2 = "Maintain It";
     
     $trees = Tree::where(function($q) use ($query) {
-                $q->where('barangay', 'LIKE', "%$query%")
-                  ->orWhere('municipality', 'LIKE', "%$query%")
-                  ->orWhere('province', 'LIKE', "%$query%");
+                $q->where('address', 'LIKE', "%$query%");
             })
             ->where('Tree_Status', '1')
             ->get();
