@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('trees', function (Blueprint $table) {
-            $table->increments('tree_id')->primary();
+            $table->id();
             $table->string('com_Name', 50);
             $table->string('sci_Name', 50);
             $table->string('fam_Name', 50);
@@ -24,7 +24,11 @@ return new class extends Migration
             $table->string('origin', 50);
             $table->string('conserve_Status', 50);
             $table->string('uses', 50);
+            $table->unsignedBigInteger('tagger');
+            $table->string('tree_pic');
             $table->enum('tagging_Stat', ['Alive', 'Dead'])->default('Alive')->nullable(false);
+            $table->enum('Tree_Status', ['1', '2'])->default('1')->nullable(false);
+            $table->foreign('tagger')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
         });
     }
 

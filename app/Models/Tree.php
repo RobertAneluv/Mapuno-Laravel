@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tree extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     protected $fillable = [
-        'tree_id',
+        'id',
         'com_Name',
         'sci_Name',
         'fam_Name',
@@ -22,6 +23,14 @@ class Tree extends Model
         'origin',
         'conserve_Status',
         'uses',
-        'tagging_Stat'
+        'tagger',
+        'tree_pic',
+        'tagging_Stat',
+        'Tree_Status',
     ];
+
+    public function tagger()
+    {
+        return $this->belongsTo(User::class, 'tagger');
+    }
 }
