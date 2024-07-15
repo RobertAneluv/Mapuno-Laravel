@@ -88,7 +88,7 @@ class TreeController extends Controller
         }
     } 
 
-    public function treeUpate(Request $request, $id)
+    public function treeUpdate(Request $request, $id)
     {
         try {
             $tree = Tree::findOrFail($id);
