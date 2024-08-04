@@ -9,7 +9,7 @@ class TreeController extends Controller
 {
     public function Trees()
     {
-        $trees = Tree::with('tagger:id,name') // Adjust the fields as necessary
+        $trees = Tree::with('tagger:id,firstname') // Adjust the fields as necessary
             ->select(
                 'id',
                 'com_Name',

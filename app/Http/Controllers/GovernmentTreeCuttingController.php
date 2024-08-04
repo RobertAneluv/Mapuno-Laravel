@@ -9,7 +9,7 @@ class GovernmentTreeCuttingController extends Controller
 {
     public function pendingGovernment()
     {
-        $pendingGovernment = GovernmentTreeCutting::with(['user:id,name', 'admin:id,name'])
+        $pendingGovernment = GovernmentTreeCutting::with(['user:id,firstname', 'admin:id,firstname'])
             ->select(
                 'id',
                 'user_id',
@@ -41,14 +41,14 @@ class GovernmentTreeCuttingController extends Controller
                 'app_Loc',
             )
             ->where('status', 'Pending')
-            ->get();
+            ->paginate(10); // Adjust the number per page as needed
 
         return response()->json([
             'PendingGovernment' => $pendingGovernment
         ], 200);
     }
 
-    public function approvedGovernment(Request $request, $id)
+    public function approvedGovernmentStatus(Request $request, $id)
     {
         $status = 'Approved';
         try {
@@ -74,11 +74,12 @@ class GovernmentTreeCuttingController extends Controller
 
             return response()->json(['message' => 'Government tree cutting request approved successfully', 'pendingGovernment' => $pendingGovernment], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to approved government tree cutting request', 'message' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Failed to approve government tree cutting request', 'message' => $e->getMessage()], 500);
         }
     }
 
-    public function declinedGovernment(Request $request, $id){
+    public function declinedGovernmentStatus(Request $request, $id)
+    {
         $status = 'Declined';
     
         try {
@@ -91,5 +92,42 @@ class GovernmentTreeCuttingController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to decline government tree cutting request', 'message' => $e->getMessage()], 500);
         }
+    }
+    public function approvedGovernment()
+    {
+        $approvedGovernment = GovernmentTreeCutting::with(['user:id,firstname', 'admin:id,firstname'])
+            ->select(
+                'id',
+                'user_id',
+                'admin_id',
+                'app_Date',
+                'app_Agency',
+                'app_Loc',
+            )
+            ->where('status', 'Approved')
+            ->paginate(10);
+            
+
+        return response()->json([
+            'ApprovedGovernment' => $approvedGovernment
+        ], 200);
+    }
+
+    public function declinedGovernment()
+    {
+        $declinedGovernment = GovernmentTreeCutting::with(['user:id,firstname', 'admin:id,firstname'])
+            ->select(
+                'id',
+                'user_id',
+                'admin_id',
+                'app_Agency',
+                'app_Loc',
+            )
+            ->where('status', 'Declined')
+            ->paginate(10);
+
+        return response()->json([
+            'DeclinedGovernment' => $declinedGovernment
+        ], 200);
     }
 }
