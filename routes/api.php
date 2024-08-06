@@ -5,6 +5,8 @@ use App\Http\Controllers\GovernmentTreeCuttingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+
 
 Route::group([
     'middleware' => 'api',
@@ -15,15 +17,16 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('logout');
     Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api')->name('refresh');
     Route::get('/user', [AuthController::class, 'user'])->middleware('auth:api')->name('user');  
-    Route::get('/users', [AuthController::class, 'getAllUsers'])->middleware('auth:api')->name('users.all');
-    Route::post('/approve-user/{id}', [AuthController::class, 'approveUser'])->middleware('auth:api');
-    Route::post('/decline-user/{id}', [AuthController::class, 'declineUser'])->middleware('auth:api');
-    Route::get('/approved-users-count', [AuthController::class, 'approvedUsersCount']);
-    Route::get('/pending-users-count', [AuthController::class, 'getPendingUsersCount']);
-    Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+
     
 // Ensure this route exists
 });
+Route::get('/users', [UserController::class, 'getAllUsers'])->name('users.all');
+Route::post('/approve-user/{id}', [UserController::class, 'approveUser'])->name('user.approve');
+Route::post('/decline-user/{id}', [UserController::class, 'declineUser'])->name('user.decline');
+Route::get('/approved-users-count', [UserController::class, 'approvedUsersCount'])->name('users.approved.count');
+Route::get('/pending-users-count', [UserController::class, 'getPendingUsersCount'])->name('users.pending.count');
+Route::post('/update-profile', [UserController::class, 'updateProfile'])->name('user.update.profile');
 
 Route::get('/trees', [TreeController::class, 'Trees']);
 Route::get('/searchquery', [TreeController::class, 'SearchQuery']);
